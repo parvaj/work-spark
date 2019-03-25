@@ -4,14 +4,15 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use AppTask;
+use Auth;
+use App\Task;
 
 class TaskController extends Controller
 {
     //r
 
     public function allTasks(){
-        $tasks = Task::where('user_id',Auth::user()->id);
+        $tasks = Task::where('user_id',Auth::user()->id)->get();
         return response()->json([
             'tasks' => $tasks,
             'status' => 'Success'
@@ -32,7 +33,7 @@ class TaskController extends Controller
     }
 
     
-    public function edit(Request $request){
+    public function update(Request $request){
         $task = Task::find($request->id);
         $task->name = $request->name;
         $task->save();
